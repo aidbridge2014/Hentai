@@ -30,11 +30,15 @@
                     <i class="fas fa-sun hidden dark:block"></i>
                 </button>
 
+                <!-- Ссылки на вход и регистрацию -->
+                <a href="login.html" class="text-white hover:underline px-3 py-2 rounded transition hidden md:inline-block">Войти</a>
+                <a href="register.html" class="bg-pink-500 hover:bg-pink-700 text-white px-3 py-2 rounded transition hidden md:inline-block">Регистрация</a>
+
+                <!-- Иконка пользователя с выпадающим меню -->
                 <div class="relative group">
                     <button aria-haspopup="true" aria-expanded="false" class="p-2 rounded-full hover:bg-pink-700 dark:hover:bg-pink-800 transition cursor-pointer">
                         <i class="fas fa-user text-white"></i>
                     </button>
-                    <!-- Увеличена зона видимости меню профиля -->
                     <div class="profile-menu absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 invisible opacity-0 pointer-events-none transition-opacity duration-300 z-50">
                         <a href="#" class="block px-4 py-2 hover:bg-pink-100 dark:hover:bg-pink-800 cursor-pointer">Профиль</a>
                         <a href="#" class="block px-4 py-2 hover:bg-pink-100 dark:hover:bg-pink-800 cursor-pointer">Настройки</a>
@@ -126,16 +130,221 @@
             </div>
         </section>
 
-        <!-- Остальной контент (категории, последние работы, художники, теги, подписка, футер и т.д.) -->
-        <!-- Для краткости не повторяю весь код, он остается как в вашем исходнике, только с заменой названия сайта и улучшениями -->
+        <!-- Categories -->
+        <section class="mb-8">
+            <h2 class="text-xl md:text-2xl font-bold mb-4 flex items-center">
+                <i class="fas fa-tags mr-2 text-pink-500"></i>
+                Популярные категории
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-3">
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 rounded-lg p-3 text-center transition shadow-sm">
+                    <i class="fas fa-tshirt text-pink-500 text-2xl mb-1"></i>
+                    <p class="text-sm font-medium">Униформа</p>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 rounded-lg p-3 text-center transition shadow-sm">
+                    <i class="fas fa-user-graduate text-pink-500 text-2xl mb-1"></i>
+                    <p class="text-sm font-medium">Студенты</p>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 rounded-lg p-3 text-center transition shadow-sm">
+                    <i class="fas fa-fantasy-flight-games text-pink-500 text-2xl mb-1"></i>
+                    <p class="text-sm font-medium">Фэнтези</p>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 rounded-lg p-3 text-center transition shadow-sm">
+                    <i class="fas fa-robot text-pink-500 text-2xl mb-1"></i>
+                    <p class="text-sm font-medium">Футуристика</p>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 rounded-lg p-3 text-center transition shadow-sm">
+                    <i class="fas fa-heart text-pink-500 text-2xl mb-1"></i>
+                    <p class="text-sm font-medium">Романтика</p>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 rounded-lg p-3 text-center transition shadow-sm">
+                    <i class="fas fa-dragon text-pink-500 text-2xl mb-1"></i>
+                    <p class="text-sm font-medium">Монстры</p>
+                </a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 rounded-lg p-3 text-center transition shadow-sm">
+                    <i class="fas fa-theater-masks text-pink-500 text-2xl mb-1"></i>
+                    <p class="text-sm font-medium">Драма</p>
+                </a>
+            </div>
+        </section>
 
+        <!-- Latest Hentai -->
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl md:text-2xl font-bold flex items-center">
+                    <i class="fas fa-fire-alt mr-2 text-pink-500"></i>
+                    Последние добавления
+                </h2>
+                <a href="#" class="text-pink-600 dark:text-pink-400 hover:underline flex items-center">
+                    <span>Смотреть все</span>
+                    <i class="fas fa-chevron-right ml-1 text-sm"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- Hentai Card 1 -->
+                <div class="hentai-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow fade-in cursor-pointer">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x450" alt="Hentai 1" class="w-full h-48 md:h-64 object-cover" loading="lazy" />
+                        <div class="hentai-overlay absolute inset-0 bg-black bg-opacity-60 opacity-0 flex flex-col justify-between p-3">
+                            <div class="flex justify-end">
+                                <button class="text-white hover:text-pink-300 transition cursor-pointer" aria-label="Добавить в закладки">
+                                    <i class="fas fa-bookmark"></i>
+                                </button>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <span class="bg-pink-600 text-white text-xs px-2 py-1 rounded">18+</span>
+                                <div class="flex space-x-2">
+                                    <span class="text-white text-sm flex items-center">
+                                        <i class="fas fa-eye mr-1"></i> 24.5K
+                                    </span>
+                                    <span class="text-white text-sm flex items-center">
+                                        <i class="fas fa-heart mr-1"></i> 8.2K
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h3 class="font-medium text-sm md:text-base mb-1 truncate">Секретные уроки с сенсеем</h3>
+                        <div class="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+                            <span>Глава 12</span>
+                            <span>2 дня назад</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Добавьте остальные карточки аналогично -->
+                <!-- ... -->
+            </div>
+        </section>
+
+        <!-- Popular Artists -->
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl md:text-2xl font-bold flex items-center">
+                    <i class="fas fa-paint-brush mr-2 text-pink-500"></i>
+                    Популярные художники
+                </h2>
+                <a href="#" class="text-pink-600 dark:text-pink-400 hover:underline flex items-center">
+                    <span>Все художники</span>
+                    <i class="fas fa-chevron-right ml-1 text-sm"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- Artist 1 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 text-center shadow-sm hover:shadow-md transition cursor-pointer">
+                    <div class="w-16 h-16 md:w-20 md:h-20 mx-auto mb-3 rounded-full overflow-hidden border-2 border-pink-500">
+                        <img src="https://via.placeholder.com/100" alt="Artist 1" class="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <h3 class="font-medium text-sm md:text-base">SakuraArt</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">12.5K подписчиков</p>
+                </div>
+
+                <!-- Добавьте остальных художников аналогично -->
+                <!-- ... -->
+            </div>
+        </section>
+
+        <!-- Popular Tags -->
+        <section class="mb-8">
+            <h2 class="text-xl md:text-2xl font-bold mb-4 flex items-center">
+                <i class="fas fa-hashtag mr-2 text-pink-500"></i>
+                Популярные теги
+            </h2>
+            <div class="flex flex-wrap gap-2">
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#school</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#fantasy</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#romance</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#adventure</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#office</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#monster</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#yuri</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#yaoi</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#ecchi</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#trap</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#futanari</a>
+                <a href="#" class="bg-white dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900 px-3 py-1 rounded-full text-sm shadow-sm transition cursor-pointer">#bdsm</a>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="bg-pink-100 dark:bg-pink-900 rounded-xl p-6 md:p-8 mb-8">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-xl md:text-2xl font-bold mb-2">Подпишитесь на обновления</h2>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">Получайте уведомления о новых работах ваших любимых художников прямо на почту</p>
+                <div class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+                    <input type="email" placeholder="Ваш email" class="flex-grow px-4 py-2 rounded-full border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-500 dark:bg-gray-800 dark:border-pink-700" />
+                    <button class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded-full transition whitespace-nowrap cursor-pointer">
+                        Подписаться
+                    </button>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-300 py-8">
         <div class="container mx-auto px-4">
-            <!-- Аналогично футер с заменой названия на HentaIce -->
-            <div class="text-center text-sm mt-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                        <i class="fas fa-ghost mr-2 text-pink-500"></i>
+                        HentaIce
+                    </h3>
+                    <p class="text-sm">Лучшая коллекция хентая для настоящих ценителей. Только качественный контент.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-medium mb-4">Навигация</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-pink-400 transition cursor-pointer">Главная</a></li>
+                        <li><a href="#" class="hover:text-pink-400 transition cursor-pointer">Популярное</a></li>
+                        <li><a href="#" class="hover:text-pink-400 transition cursor-pointer">Новинки</a></li>
+                        <li><a href="#" class="hover:text-pink-400 transition cursor-pointer">Жанры</a></li>
+                        <li><a href="#" class="hover:text-pink-400 transition cursor-pointer">Художники</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-medium mb-4">Информация</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-pink-400 transition cursor-pointer">О нас</a></li>
+                        <li><a href="#" class="hover:text-pink-400 transition cursor-pointer">Правила</a></li>
+                        <li><a href="#" class="hover:text-pink-400 transition cursor-pointer">Конфиденциальность</a></li>
+                        <li><a href="#" class="hover:text-pink-400 transition cursor-pointer">DMCA</a></li>
+                        <li><a href="#" class="hover:text-pink-400 transition cursor-pointer">Контакты</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-medium mb-4">Социальные сети</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 hover:bg-pink-600 flex items-center justify-center transition cursor-pointer" aria-label="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 hover:bg-pink-600 flex items-center justify-center transition cursor-pointer" aria-label="Discord">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 hover:bg-pink-600 flex items-center justify-center transition cursor-pointer" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 hover:bg-pink-600 flex items-center justify-center transition cursor-pointer" aria-label="VK">
+                            <i class="fab fa-vk"></i>
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm">Поддержать проект:</p>
+                        <div class="flex space-x-2 mt-2">
+                            <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded text-xs cursor-pointer">Donate</button>
+                            <button class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-xs cursor-pointer">Patreon</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-6 text-sm text-center">
                 <p>© 2023 HentaIce. Все права защищены. Все персонажи вымышлены, любые совпадения случайны.</p>
                 <p class="mt-2 text-xs text-gray-500">18+ Only. By accessing this site you confirm that you are at least 18 years old.</p>
             </div>
