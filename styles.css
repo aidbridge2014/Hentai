@@ -1,44 +1,62 @@
-/* styles.css */
-
-/* Анимация появления */
+/* Анимация плавного появления */
 .fade-in {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Оверлей при наведении на карточки */
+/* Ховер эффект для оверлея карточек */
 .hentai-card:hover .hentai-overlay {
     opacity: 1;
 }
 
+/* Плавный переход для оверлея */
 .hentai-overlay {
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease;
+    opacity: 0;
 }
 
-/* Лоадер (крутилка) */
+/* Анимация вращения лоадера */
 .loader {
     border-top-color: #ec4899;
     animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-/* Кнопка "Наверх" - плавное появление */
-#back-to-top.opacity-0 {
-    opacity: 0;
-    visibility: hidden;
+/* Увеличение зоны видимости меню профиля */
+.profile-menu {
+    /* Изначально скрыто */
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-#back-to-top.opacity-100 {
-    opacity: 1;
-    visibility: visible;
+/* Показывать меню при наведении на группу */
+.relative.group:hover .profile-menu,
+.relative.group:focus-within .profile-menu {
     pointer-events: auto;
+    opacity: 1;
+}
+
+/* Курсор для интерактивных элементов */
+button,
+a {
+    cursor: pointer;
 }
