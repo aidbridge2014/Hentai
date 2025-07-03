@@ -11,38 +11,59 @@
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen px-4">
 
-    <main class="bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-md w-full p-8">
-        <h1 class="text-3xl font-bold mb-6 text-center text-pink-600 dark:text-pink-400">Вход в HentaIce</h1>
+<main class="bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-md w-full p-8">
+    <h1 class="text-3xl font-bold mb-6 text-center text-pink-600 dark:text-pink-400">Вход в HentaIce</h1>
 
-        <form id="login-form" class="space-y-6" novalidate>
-            <div>
-                <label for="email" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Email</label>
-                <input type="email" id="email" name="email" required placeholder="example@mail.com"
-                    class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 dark:bg-gray-700 dark:text-white" />
-            </div>
+    <form id="login-form" class="space-y-6" novalidate>
+        <div>
+            <label for="email" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Email</label>
+            <input type="email" id="email" name="email" required placeholder="example@mail.com"
+                class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 dark:bg-gray-700 dark:text-white" />
+        </div>
 
-            <div>
-                <label for="password" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Пароль</label>
-                <input type="password" id="password" name="password" required placeholder="••••••••"
-                    class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 dark:bg-gray-700 dark:text-white" />
-            </div>
+        <div>
+            <label for="password" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Пароль</label>
+            <input type="password" id="password" name="password" required placeholder="••••••••"
+                class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500 dark:bg-gray-700 dark:text-white" />
+        </div>
 
-            <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-3 rounded font-semibold transition">Войти</button>
-        </form>
+        <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-3 rounded font-semibold transition cursor-pointer">Войти</button>
+    </form>
 
-        <p class="mt-6 text-center text-gray-600 dark:text-gray-400">
-            Нет аккаунта?
-            <a href="register.html" class="text-pink-600 hover:underline">Зарегистрироваться</a>
-        </p>
-    </main>
+    <p class="mt-6 text-center text-gray-600 dark:text-gray-400">
+        Нет аккаунта?
+        <a href="register.html" class="text-pink-600 hover:underline">Зарегистрироваться</a>
+    </p>
+</main>
 
-    <script>
-        const form = document.getElementById('login-form');
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            // Здесь можно добавить валидацию и отправку данных на сервер
-            alert('Форма входа отправлена (здесь нужно реализовать логику)');
+<script>
+document.getElementById('login-form').addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('login.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ email, password })
         });
-    </script>
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Вход успешен! Добро пожаловать, ' + data.username);
+            window.location.href = 'index.html';
+        } else {
+            alert(data.error || 'Ошибка входа');
+        }
+    } catch (error) {
+        alert('Ошибка сети или сервера');
+        console.error(error);
+    }
+});
+</script>
+
 </body>
 </html>
