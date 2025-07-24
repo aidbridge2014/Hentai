@@ -1,78 +1,62 @@
--- gg.lua
+-- Мини меню GUI для Roblox (Luau)
 
 local Players = game:GetService("Players")
-local HttpService = game:GetService("HttpService")
-local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
 
-local InsertService = game:GetService("InsertService")
+-- Создаем ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "MiniMenu"
+screenGui.Parent = playerGui
+screenGui.ResetOnSpawn = false
 
-local targetUsername = "hoangtrangblwsb"
-local itemAssetId = 225921000
+-- Создаем Frame (окно меню)
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 250, 0, 120) -- ширина 250, высота 120 пикселей
+frame.Position = UDim2.new(0.5, -125, 0.5, -60) -- по центру экрана
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Parent = screenGui
 
--- Функция даёт предмет игроку (в рюкзак)
-local function giveToolToPlayer(player)
-    if not player then
-        warn("giveToolToPlayer: передан nil вместо игрока")
-        return
-    end
+-- Текст заголовка
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 30)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "Мини Меню"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 22
+title.Parent = frame
 
-    -- Пытаемся загрузить ассет через InsertService (работает в скриптах на сервере, может не работать на клиенте)
-    local success, asset = pcall(function()
-        return InsertService:LoadAsset(itemAssetId)
-    end)
+-- Кнопка закрытия
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 25, 0, 25)
+closeButton.Position = UDim2.new(1, -30, 0, 3)
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 18
+closeButton.Parent = frame
 
-    if success and asset then
-        local toolObj
-        for _, child in pairs(asset:GetChildren()) do
-            if child:IsA("Tool") then
-                toolObj = child
-                break
-            end
-        end
+closeButton.MouseButton1Click:Connect(function()
+    screenGui.Enabled = false -- Скрываем меню при нажатии X
+end)
 
-        if toolObj then
-            toolObj.Parent = player:WaitForChild("Backpack")
-            print("Tool с ID "..itemAssetId.." успешно выдан игроку "..player.Name)
-        else
-            warn("В ассете с ID "..itemAssetId.." нет объекта типа Tool")
-        end
-    else
-        -- Альтернативный вариант: через HttpGet вотчника, если InsertService не работает
-        warn("InsertService:LoadAsset не сработал, пробуем альтернативный способ")
+-- Пример кнопки action в меню
+local actionButton = Instance.new("TextButton")
+actionButton.Size = UDim2.new(0, 200, 0, 40)
+actionButton.Position = UDim2.new(0.5, -100, 0, 50)
+actionButton.BackgroundColor3 = Color3.fromRGB(50, 120, 220)
+actionButton.Text = "Выполнить действие"
+actionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+actionButton.Font = Enum.Font.GothamBold
+actionButton.TextSize = 20
+actionButton.Parent = frame
 
-        -- Например, если у вас есть сырой скрипт инструмента по URL, можно загрузить и выполнить
-        -- Но в данном случае Asset - это именно Roblox asset, другой путь не всегда применим
-
-        warn("Не удалось загрузить ассет с ID "..itemAssetId)
-    end
-end
-
--- Поиск игрока с ником, с ожиданием, если его ещё нет
-local function getPlayerByName(name, timeout)
-    timeout = timeout or 10  -- секунд ожидания
-
-    local player = Players:FindFirstChild(name)
-    if player then return player end
-
-    local startTime = tick()
-    while tick() - startTime < timeout do
-        player = Players:FindFirstChild(name)
-        if player then return player end
-        RunService.Heartbeat:Wait()
-    end
-
-    return nil
-end
-
--- Основной блок
-
-local targetPlayer = getPlayerByName(targetUsername, 15) -- подождать до 15 секунд игрока
-
-if not targetPlayer then
-    warn("Игрок с ником "..targetUsername.." не найден в течении 15 секунд")
-    return
-end
-
-print("Игрок "..targetUsername.." найден, пытаемся дать предмет...")
-
-giveToolToPlayer(targetPlayer)
+actionButton.MouseButton1Click:Connect(function()
+    print("Кнопка нажата! Здесь вызов вашей функции.")
+    -- Здесь разместите реальный код вашего скрипта, например:
+    -- giveToolToPlayer(Players.LocalPlayer)
+end)
