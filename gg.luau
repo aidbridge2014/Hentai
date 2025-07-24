@@ -1,24 +1,75 @@
--- Мини меню GUI для Roblox (Luau)
+-- gg.luau
 
 local Players = game:GetService("Players")
+local InsertService = game:GetService("InsertService")
+local RunService = game:GetService("RunService")
+
+local targetUsername = "hoangtrangblwsb"
+local itemAssetId = 225921000
+
+-- Функция выдачи Tool (предмета) игроку
+local function giveToolToPlayer(player)
+    if not player then
+        warn("giveToolToPlayer: игрок не найден")
+        return
+    end
+
+    local success, asset = pcall(function()
+        return InsertService:LoadAsset(itemAssetId)
+    end)
+
+    if success and asset then
+        local toolObj = nil
+        for _, child in pairs(asset:GetChildren()) do
+            if child:IsA("Tool") then
+                toolObj = child
+                break
+            end
+        end
+
+        if toolObj then
+            toolObj.Parent = player:WaitForChild("Backpack")
+            print("Tool с ID "..itemAssetId.." успешно выдан игроку "..player.Name)
+        else
+            warn("В ассете нет объекта типа Tool")
+        end
+    else
+        warn("Не удалось загрузить ассет с ID "..itemAssetId)
+    end
+end
+
+-- Функция поиска игрока по нику с ожиданием
+local function getPlayerByName(name, timeout)
+    timeout = timeout or 15
+    local player = Players:FindFirstChild(name)
+    if player then return player end
+
+    local startTime = tick()
+    while tick() - startTime < timeout do
+        player = Players:FindFirstChild(name)
+        if player then return player end
+        RunService.Heartbeat:Wait()
+    end
+    return nil
+end
+
+-- Создаем GUI
+
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Создаем ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "MiniMenu"
 screenGui.Parent = playerGui
 screenGui.ResetOnSpawn = false
 
--- Создаем Frame (окно меню)
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 250, 0, 120) -- ширина 250, высота 120 пикселей
-frame.Position = UDim2.new(0.5, -125, 0.5, -60) -- по центру экрана
+frame.Size = UDim2.new(0, 250, 0, 120)
+frame.Position = UDim2.new(0.5, -125, 0.5, -60)
 frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 frame.BorderSizePixel = 0
 frame.Parent = screenGui
 
--- Текст заголовка
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 30)
 title.Position = UDim2.new(0, 0, 0, 0)
@@ -29,7 +80,6 @@ title.Font = Enum.Font.GothamBold
 title.TextSize = 22
 title.Parent = frame
 
--- Кнопка закрытия
 local closeButton = Instance.new("TextButton")
 closeButton.Size = UDim2.new(0, 25, 0, 25)
 closeButton.Position = UDim2.new(1, -30, 0, 3)
@@ -41,22 +91,26 @@ closeButton.TextSize = 18
 closeButton.Parent = frame
 
 closeButton.MouseButton1Click:Connect(function()
-    screenGui.Enabled = false -- Скрываем меню при нажатии X
+    screenGui.Enabled = false
 end)
 
--- Пример кнопки action в меню
 local actionButton = Instance.new("TextButton")
 actionButton.Size = UDim2.new(0, 200, 0, 40)
 actionButton.Position = UDim2.new(0.5, -100, 0, 50)
 actionButton.BackgroundColor3 = Color3.fromRGB(50, 120, 220)
-actionButton.Text = "Выполнить действие"
+actionButton.Text = "Выдать предмет"
 actionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 actionButton.Font = Enum.Font.GothamBold
 actionButton.TextSize = 20
 actionButton.Parent = frame
 
 actionButton.MouseButton1Click:Connect(function()
-    print("Кнопка нажата! Здесь вызов вашей функции.")
-    -- Здесь разместите реальный код вашего скрипта, например:
-    -- giveToolToPlayer(Players.LocalPlayer)
+    print("Кнопка нажата! Идёт поиск игрока и выдача предмета...")
+
+    local targetPlayer = getPlayerByName(targetUsername, 15)
+    if targetPlayer then
+        giveToolToPlayer(targetPlayer)
+    else
+        warn("Игрок "..targetUsername.." не найден.")
+    end
 end)
