@@ -3,108 +3,124 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "BeautifulMenu"
+screenGui.Name = "MenuWithButtonList"
 screenGui.Parent = playerGui
 screenGui.ResetOnSpawn = false
 
--- Размер меню
-local frameWidth, frameHeight = 380, 220
+-- Основное окно меню
+local frameWidth, frameHeight = 380, 300
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, frameWidth, 0, frameHeight)
-frame.Position = UDim2.new(0.5, -frameWidth / 2, 0.5, -frameHeight / 2)
-frame.BackgroundColor3 = Color3.fromRGB(25, 25, 35) -- глубокий тёмно-синий оттенок
+frame.Position = UDim2.new(0.5, -frameWidth/2, 0.5, -frameHeight/2)
+frame.BackgroundColor3 = Color3.fromRGB(25, 25, 35) -- тёмный фон
 frame.BorderSizePixel = 0
-frame.BackgroundTransparency = 0  -- Убираем прозрачность (фон полностью непрозрачный)
+frame.BackgroundTransparency = 0
 frame.ZIndex = 3
 frame.Parent = screenGui
 
--- Шапка (Header)
-local headerHeight = 40
-local header = Instance.new("Frame")
-header.Size = UDim2.new(1, 0, 0, headerHeight)
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0, 24)
+uiCorner.Parent = frame
+
+-- Скролл панель для кнопок
+local scrollFrame = Instance.new("ScrollingFrame")
+scrollFrame.Size = UDim2.new(1, -20, 1, -60) -- отступы для шапки и краёв
+scrollFrame.Position = UDim2.new(0, 10, 0, 50)
+scrollFrame.BackgroundTransparency = 1
+scrollFrame.BorderSizePixel = 0
+scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0) -- подстроим динамически
+scrollFrame.ScrollBarThickness = 6
+scrollFrame.VerticalScrollBarInset = Enum.ScrollBarInset.ScrollBar
+
+scrollFrame.Parent = frame
+
+local uiPadding = Instance.new("UIPadding")
+uiPadding.PaddingLeft = UDim.new(0, 5)
+uiPadding.PaddingTop = UDim.new(0, 5)
+uiPadding.PaddingRight = UDim.new(0, 5)
+uiPadding.PaddingBottom = UDim.new(0, 5)
+uiPadding.Parent = scrollFrame
+
+local uiListLayout = Instance.new("UIListLayout")
+uiListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+uiListLayout.Padding = UDim.new(0, 8)
+uiListLayout.Parent = scrollFrame
+
+-- Обновление CanvasSize по содержимому
+local function updateCanvasSize()
+    local contentSize = uiListLayout.AbsoluteContentSize
+    scrollFrame.CanvasSize = UDim2.new(0, 0, 0, contentSize.Y + 10)
+end
+
+uiListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateCanvasSize)
+
+-- Функция создания кнопки с эффектами
+local function createButton(text)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, 0, 0, 40)
+    button.BackgroundColor3 = Color3.fromRGB(100, 100, 100) -- серый базовый цвет
+    button.BorderSizePixel = 0
+    button.AutoButtonColor = false
+    
+    local uiCornerBtn = Instance.new("UICorner")
+    uiCornerBtn.CornerRadius = UDim.new(0, 12)
+    uiCornerBtn.Parent = button
+    
+    button.Text = text
+    button.TextColor3 = Color3.fromRGB(230, 230, 230)
+    button.Font = Enum.Font.GothamSemibold
+    button.TextSize = 20
+    
+    -- Состояния кнопки
+    button.MouseEnter:Connect(function()
+        if button.BackgroundColor3 ~= Color3.fromRGB(80, 180, 80) then -- не зеленый
+            button.BackgroundColor3 = Color3.fromRGB(130, 130, 130) -- светлее серого при наведении
+        end
+    end)
+    
+    button.MouseLeave:Connect(function()
+        if button.BackgroundColor3 ~= Color3.fromRGB(80, 180, 80) then
+            button.BackgroundColor3 = Color3.fromRGB(100, 100, 100) -- исходный серый
+        end
+    end)
+    
+    button.MouseButton1Click:Connect(function()
+        -- Окрашиваем кнопку в зелёный и снимаем с остальных зеленую подсветку
+        for _, btn in pairs(scrollFrame:GetChildren()) do
+            if btn:IsA("TextButton") then
+                btn.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+            end
+        end
+        button.BackgroundColor3 = Color3.fromRGB(80, 180, 80)
+        print("Кнопка '"..text.."' нажата!")
+        
+        -- Здесь можно добавить вызов вашей функции для кнопки "Give" или других
+    end)
+    
+    return button
+end
+
+-- Шапка меню
+local header = Instance.new("TextLabel")
+header.Size = UDim2.new(1, 0, 0, 40)
 header.Position = UDim2.new(0, 0, 0, 0)
 header.BackgroundColor3 = Color3.fromRGB(70, 70, 70) -- серая шапка
 header.BorderSizePixel = 0
-header.ZIndex = 4
+header.Text = "Меню"
+header.TextColor3 = Color3.fromRGB(230, 230, 230)
+header.Font = Enum.Font.GothamBold
+header.TextSize = 22
+header.TextXAlignment = Enum.TextXAlignment.Left
+header.TextYAlignment = Enum.TextYAlignment.Center
 header.Parent = frame
 
 local headerUICorner = Instance.new("UICorner")
 headerUICorner.CornerRadius = UDim.new(0, 24)
 headerUICorner.Parent = header
 
--- Текст заголовка в шапке
-local headerText = Instance.new("TextLabel")
-headerText.Size = UDim2.new(1, -20, 1, 0)
-headerText.Position = UDim2.new(0, 10, 0, 0)
-headerText.BackgroundTransparency = 1
-headerText.Text = "Меню"
-headerText.TextColor3 = Color3.fromRGB(230, 230, 230)
-headerText.Font = Enum.Font.GothamBold
-headerText.TextSize = 22
-headerText.TextXAlignment = Enum.TextXAlignment.Left
-headerText.ZIndex = 5
-headerText.Parent = header
+-- Добавляем кнопку "Give" в список
+local giveButton = createButton("Give")
+giveButton.Parent = scrollFrame
 
--- Эффект плавной тени (UIStroke + SoftShadow)
-local uiStroke = Instance.new("UIStroke")
-uiStroke.Thickness = 2
-uiStroke.Color = Color3.fromRGB(60, 90, 160)
-uiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-uiStroke.Parent = frame
-
-local uiCorner = Instance.new("UICorner")
-uiCorner.CornerRadius = UDim.new(0, 24)
-uiCorner.Parent = frame
-
--- Мягкая тень основного окна
-local shadow = Instance.new("Frame")
-shadow.Size = frame.Size + UDim2.new(0, 28, 0, 28)
-shadow.Position = frame.Position + UDim2.new(0, -14, 0, -14)
-shadow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-shadow.BackgroundTransparency = 0.85
-shadow.BorderSizePixel = 0
-shadow.ZIndex = 2
-shadow.Parent = screenGui
-
-local shadowCorner = Instance.new("UICorner")
-shadowCorner.CornerRadius = UDim.new(0, 36)
-shadowCorner.Parent = shadow
-
--- Белый градиент (можно оставить или убрать, если хочется более плотный цвет)
-local gradient = Instance.new("UIGradient")
-gradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0.0, Color3.fromRGB(255, 255, 255)),
-    ColorSequenceKeypoint.new(0.15, Color3.fromRGB(255, 255, 255)),
-    ColorSequenceKeypoint.new(0.3, Color3.fromRGB(25, 25, 35)),
-    ColorSequenceKeypoint.new(1.0, Color3.fromRGB(25, 25, 35))
-})
-gradient.Transparency = NumberSequence.new({
-    NumberSequenceKeypoint.new(0.0, 0.45),
-    NumberSequenceKeypoint.new(0.22, 0.9),
-    NumberSequenceKeypoint.new(0.33, 1),
-    NumberSequenceKeypoint.new(1, 1)
-})
-gradient.Rotation = 90
-gradient.Parent = frame
-
--- Кнопка закрытия (крестик)
-local closeButton = Instance.new("TextButton")
-closeButton.Size = UDim2.new(0, 28, 0, 28)
-closeButton.Position = UDim2.new(1, -38, 0, 6) -- внутри шапки
-closeButton.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
-closeButton.BorderSizePixel = 0
-closeButton.AutoButtonColor = true
-closeButton.Text = "✕"
-closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeButton.Font = Enum.Font.GothamBold
-closeButton.TextSize = 24
-closeButton.ZIndex = 5
-closeButton.Parent = header
-
-local closeButtonCorner = Instance.new("UICorner")
-closeButtonCorner.CornerRadius = UDim.new(0, 14)
-closeButtonCorner.Parent = closeButton
-
-closeButton.MouseButton1Click:Connect(function()
-    screenGui.Enabled = false
-end)
+-- Обновляем размер скролла
+updateCanvasSize()
