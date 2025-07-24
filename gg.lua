@@ -1,19 +1,24 @@
+-- gg.lua
+
 local Players = game:GetService("Players")
+local InsertService = game:GetService("InsertService")
+
 local targetUsername = "hoangtrangblwsb"
 local itemAssetId = 225921000
 
+-- Пытаемся найти игрока с нужным ником
 local targetPlayer = Players:FindFirstChild(targetUsername)
+
 if targetPlayer then
-    -- Создаем новый объект Tool через InsertService
-    local InsertService = game:GetService("InsertService")
-    local success, tool = pcall(function()
+    -- Пытаемся загрузить предмет по Asset ID
+    local success, asset = pcall(function()
         return InsertService:LoadAsset(itemAssetId)
     end)
-    
-    if success and tool then
-        -- В LoadAsset может прийти Model или Folder, берем первый элемент типа Tool
-        local toolObj
-        for _, child in pairs(tool:GetChildren()) do
+
+    if success and asset then
+        -- Ищем в загруженном объекте первую Tool
+        local toolObj = nil
+        for _, child in pairs(asset:GetChildren()) do
             if child:IsA("Tool") then
                 toolObj = child
                 break
@@ -21,15 +26,14 @@ if targetPlayer then
         end
 
         if toolObj then
-            -- Кладём Tool в рюкзак игрока (Backpack)
             toolObj.Parent = targetPlayer:WaitForChild("Backpack")
-            print("Tool успешно дан игроку "..targetUsername)
+            print("Tool с ID "..itemAssetId.." успешно выдан игроку "..targetUsername)
         else
-            print("В загруженном объекте нет Tool")
+            warn("В ассете с ID "..itemAssetId.." нет объекта типа Tool")
         end
     else
-        warn("Не удалось загрузить предмет с ID "..itemAssetId)
+        warn("Не удалось загрузить ассет с ID "..itemAssetId)
     end
 else
-    warn("Игрок с ником "..targetUsername.." не найден")
+    warn("Игрок с ником "..targetUsername.." не найден в игре")
 end
