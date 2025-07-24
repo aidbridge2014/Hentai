@@ -13,6 +13,7 @@ frame.Position = UDim2.new(0.5, -170, 0.5, -90)
 frame.BackgroundColor3 = Color3.fromRGB(25, 25, 35) -- глубокий тёмно-синий оттенок
 frame.BorderSizePixel = 0
 frame.BackgroundTransparency = 0.18
+frame.ZIndex = 2
 frame.Parent = screenGui
 
 -- Эффект плавной тени (UIStroke + SoftShadow)
@@ -33,24 +34,20 @@ shadow.Position = frame.Position + UDim2.new(0, -12, 0, -12)
 shadow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 shadow.BackgroundTransparency = 0.85
 shadow.BorderSizePixel = 0
-shadow.ZIndex = frame.ZIndex - 1
+shadow.ZIndex = 1
 shadow.Parent = screenGui
 
 local shadowCorner = Instance.new("UICorner")
 shadowCorner.CornerRadius = UDim.new(0, 36)
 shadowCorner.Parent = shadow
 
--- Помещаем основной frame сверху (визуально)
-frame.ZIndex = 2
-shadow.ZIndex = 1
-
--- Дополнительно: неактивно добавим полупрозрачный белый градиент сверху для глубины
+-- Дополнительно: полупрозрачный белый градиент сверху для глубины
 local gradient = Instance.new("UIGradient")
 gradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0.0, Color3.fromRGB(255,255,255)),
-    ColorSequenceKeypoint.new(0.15, Color3.fromRGB(255,255,255)),
-    ColorSequenceKeypoint.new(0.3, Color3.fromRGB(25,25,35)),
-    ColorSequenceKeypoint.new(1.0, Color3.fromRGB(25,25,35))
+    ColorSequenceKeypoint.new(0.0, Color3.fromRGB(255, 255, 255)),
+    ColorSequenceKeypoint.new(0.15, Color3.fromRGB(255, 255, 255)),
+    ColorSequenceKeypoint.new(0.3, Color3.fromRGB(25, 25, 35)),
+    ColorSequenceKeypoint.new(1.0, Color3.fromRGB(25, 25, 35))
 })
 gradient.Transparency = NumberSequence.new({
     NumberSequenceKeypoint.new(0.0, 0.45),
@@ -60,3 +57,27 @@ gradient.Transparency = NumberSequence.new({
 })
 gradient.Rotation = 90
 gradient.Parent = frame
+
+-- Кнопка закрытия (крестик)
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 28, 0, 28)
+closeButton.Position = UDim2.new(1, -34, 0, 6) -- смещаем от правого верхнего угла окна чуть внутрь
+closeButton.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
+closeButton.BorderSizePixel = 0
+closeButton.AutoButtonColor = true
+closeButton.Text = "✕"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 24
+closeButton.ZIndex = 3
+closeButton.Parent = frame
+
+-- Радиус скругления у кнопки
+local closeButtonCorner = Instance.new("UICorner")
+closeButtonCorner.CornerRadius = UDim.new(0, 14)
+closeButtonCorner.Parent = closeButton
+
+-- Обработчик клика: скрываем меню
+closeButton.MouseButton1Click:Connect(function()
+    screenGui.Enabled = false
+end)
